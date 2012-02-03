@@ -42,7 +42,7 @@
 		</javadoc>
 	</target>
 
-	<target name="dist" description="generate the distribution">		
+	<target name="dist" depends="build" description="generate the distribution">		
 		<!-- Put everything in ${bin} into the RS2Lite.jar file -->
 		<jar jarfile="RS2Lite.jar">
 			<fileset dir="${bin}" />
@@ -50,5 +50,24 @@
 				<attribute name="Main-Class" value="com.rs2lite.RS2Lite"/>
 			</manifest>
 		</jar>
+	</target>
+	
+	<target name="run" depends="dist">
+        <java jar="RS2Lite.jar"/>
+    </target>
+	
+	<target name="app" depends="dist">
+		<copy todir="RS2Lite.app">
+			<fileset dir="resources/app-template"/>
+		</copy>
+		<copy file="RS2Lite.jar" todir="RS2Lite.app/Contents/Resources/Java"/>
+		<chmod perm="+x" file="RS2Lite.app/Contents/MacOS/JavaApplicationStub"/> <!-- Unix systems doesn't preserve attributes -->
+	</target>
+	
+	<target name="run-app" depends="app">
+		<exec executable="open">
+			<arg value="-a"/>
+			<arg value="RS2Lite.app"/>
+		</exec>
 	</target>
 </project>
