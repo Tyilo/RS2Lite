@@ -32,6 +32,10 @@ import com.rs2lite.Settings.Setting;
 import com.rs2lite.loader.JavaAppletLoader;
 import com.rs2lite.loader.ParamaterParser;
 import com.rs2lite.utils.ScreenshotTool;
+import java.awt.*;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import javax.sound.sampled.*;
 
 /**
  * Class RS2Lite, the client's main class.
@@ -84,7 +88,9 @@ public class RS2Lite {
 	 * The hide menu option
 	 */
 	private MenuItem hide;
-
+	
+	private CheckboxMenuItem mute;
+	
 	private Image logo;
 
 	/**
@@ -184,6 +190,7 @@ public class RS2Lite {
 			//window.setFocusable(true);
 			KeyboardFocusManager.getCurrentKeyboardFocusManager()
 					.addKeyEventDispatcher(new KeyListener());
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -195,6 +202,27 @@ public class RS2Lite {
 	public void hide() {
 		frame.setVisible(!frame.isVisible());
 		hide.setLabel(frame.isVisible() ? "Hide" : "Show");
+	}
+	
+	/**
+	 * Mute/unmute RuneScape
+	 */
+	public void mute() {
+		Mixer.Info[] infos = AudioSystem.getMixerInfo();
+		for (Mixer.Info info: infos) {
+			Mixer mixer = AudioSystem.getMixer(info);
+			for (Line line : mixer.getSourceLines())
+			{
+				/*for (Control control : line.getControls())
+				{
+					System.out.println(control.toString());
+				}*/
+				BooleanControl bc = (BooleanControl) line.getControl(BooleanControl.Type.MUTE);
+				if (bc != null) {
+					bc.setValue(mute.getState()); // true to mute the line, false to unmute
+				}
+			}
+		}
 	}
 
 	/**
@@ -212,13 +240,23 @@ public class RS2Lite {
 			}
 		});
 		menu.add(hide);
-		MenuItem screenshot = new MenuItem("Screenshot");
+		
+		mute = new CheckboxMenuItem("Mute");
+		mute.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				mute();
+			}
+		});
+		menu.add(mute);
+		/*MenuItem screenshot = new MenuItem("Screenshot");
 		screenshot.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				screenshot();
 			}
 		});
+		menu.add(screenshot);*/
 		MenuItem item = new MenuItem("Exit");
 		item.addActionListener(new ActionListener() {
 			@Override
@@ -228,6 +266,7 @@ public class RS2Lite {
 			}
 		});
 		menu.add(item);
+				
 		return menu;
 	}
 
