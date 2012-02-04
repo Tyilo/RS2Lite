@@ -1,5 +1,6 @@
 package com.rs2lite;
 
+import java.awt.Frame;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Image;
@@ -23,7 +24,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
@@ -73,7 +73,7 @@ public class RS2Lite {
 	/**
 	 * The main content frame, for holding the applet itself non fullscreen
 	 */
-	public static JFrame frame;
+	public static Frame frame;
 
 	/**
 	 * RS Properties storage.
@@ -155,21 +155,33 @@ public class RS2Lite {
 								+ Constants.WEBSITE_URL, MessageType.INFO);
 				frameTitle = frameTitle + " (Update available)";
 			}
-			frame = new JFrame(frameTitle);
-			frame.setLayout(new BorderLayout());
-			frame.setIconImage(logo);
-			frame.setResizable(true);
-			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			loader = new JavaAppletLoader(new URL(props.get("url")), "Rs2Applet", props);
-			appletPanel.setLayout(new BorderLayout());
+			Frame[] frames = Frame.getFrames(); //Retrieve RuneScape popup frame
+			for (Frame aFrame : frames)
+			{
+				if(aFrame.getTitle().equals("RuneScape"))
+				{
+					frame = aFrame;
+				}
+			}
+			//frame = new JFrame(frameTitle);
+			frame.setTitle(frameTitle);
+			//frame.setLayout(new BorderLayout());
+			frame.setIconImage(logo);
+			//frame.setResizable(true);
+			//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			/*appletPanel.setLayout(new BorderLayout());
 			appletPanel.add(loader.getApplet());
-			appletPanel.setPreferredSize(new Dimension(765, 503));
-			frame.getContentPane().add(appletPanel, BorderLayout.CENTER);
+			frame.getContentPane().add(appletPanel, BorderLayout.CENTER);*/
+			frame.setPreferredSize(screenSize);
 			frame.pack();
-			frame.setVisible(true);
-			window = new Window(frame);
-			window.setBounds(0, 0, screenSize.width, screenSize.height);
-			window.setFocusable(true);
+			//frame.setBounds(50, 50, 900, 200);
+			//frame.resize(screenSize);
+			//frame.pack();
+			//frame.setVisible(true);
+			//window = new Window(frame);
+			//window.setBounds(300, 300, screenSize.width, screenSize.height);
+			//window.setFocusable(true);
 			KeyboardFocusManager.getCurrentKeyboardFocusManager()
 					.addKeyEventDispatcher(new KeyListener());
 		} catch (Exception e) {
@@ -315,14 +327,14 @@ public class RS2Lite {
 	 */
 	public static void toggleFullscreen() {
 		if (!isFullScreen) {
-			frame.getContentPane().remove(appletPanel);
+			frame.remove(appletPanel);
 			window.add(appletPanel);
 			window.setVisible(true);
 			frame.setTitle("RS2 Lite - Fullscreen");
 			isFullScreen = true;
 		} else {
 			window.remove(appletPanel);
-			frame.getContentPane().add(appletPanel, BorderLayout.CENTER);
+			frame.add(appletPanel, BorderLayout.CENTER);
 			window.setVisible(false);
 			frame.pack();
 			frame.setTitle(frameTitle);
