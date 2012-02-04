@@ -4,6 +4,7 @@
 	<property name="src" location="src" />
 	<property name="bin" location="bin" />
 	<property name="doc" location="doc" />
+	<property name="resources" value="com/rs2lite/resources" />
 
 	<path id="binaries">
 		<pathelement path="${bin}" />
@@ -24,6 +25,9 @@
 
 	<target name="build" depends="init">
 		<javac srcdir="${src}" destdir="${bin}" includeantruntime="false" />
+		<copy todir="${bin}/${resources}">
+			<fileset dir="${src}/${resources}"/>
+		</copy>
 		<tstamp/>
 	</target>
 

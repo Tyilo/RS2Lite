@@ -141,8 +141,7 @@ public class RS2Lite {
 	 */
 	private void init() {
 		try {
-			logo = Toolkit.getDefaultToolkit().getImage(
-					new URL("http://rs2lite.tk/logo.gif"));
+			logo = Toolkit.getDefaultToolkit().getImage(getClass().getResource("resources/icon.png"));
 			icon = new TrayIcon(logo);
 			icon.setImageAutoSize(true);
 			icon.setPopupMenu(createMenu());
