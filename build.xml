@@ -1,30 +1,30 @@
 <?xml version="1.0"?>
-<project name="RS2Lite" default="build" basedir=".">
-	<property name="root" location="." />
-	<property name="src" location="src" />
-	<property name="bin" location="bin" />
-	<property name="doc" location="doc" />
-	<property name="resources" value="com/rs2lite/resources" />
+<project name="RS2Lite" default="run" basedir=".">
+	<property name="root" location="."/>
+	<property name="src" location="src"/>
+	<property name="bin" location="bin"/>
+	<property name="doc" location="doc"/>
+	<property name="resources" value="com/rs2lite/resources"/>
 
 	<path id="binaries">
-		<pathelement path="${bin}" />
+		<pathelement path="${bin}"/>
 	</path>
 
 	<path id="master">
-		<path refid="binaries" />
+		<path refid="binaries"/>
 	</path>
 
 	<fileset id="sources" dir="${src}">
-		<include name="**/*.java" />
+		<include name="**/*.java"/>
 	</fileset>
 
 	<target name="init">
-		<mkdir dir="${bin}" />
-		<mkdir dir="${doc}" />
+		<mkdir dir="${bin}"/>
+		<mkdir dir="${doc}"/>
 	</target>
 
 	<target name="build" depends="init">
-		<javac srcdir="${src}" destdir="${bin}" includeantruntime="false" />
+		<javac srcdir="${src}" destdir="${bin}" includeantruntime="false"/>
 		<copy todir="${bin}/${resources}">
 			<fileset dir="${src}/${resources}"/>
 		</copy>
@@ -32,11 +32,11 @@
 	</target>
 
 	<target name="clean">
-		<delete dir="${bin}" />
-		<delete dir="${doc}" />
+		<delete dir="${bin}"/>
+		<delete dir="${doc}"/>
 	</target>
 
-	<target name="rebuild" depends="clean, build" />
+	<target name="rebuild" depends="clean, build"/>
 
 	<target name="doc" depends="build">
 		<javadoc sourcepath="${src}" classpathref="libraries" access="private" destdir="${doc}" windowtitle="JScreenSnapper">
@@ -49,7 +49,7 @@
 	<target name="dist" depends="build" description="generate the distribution">		
 		<!-- Put everything in ${bin} into the RS2Lite.jar file -->
 		<jar jarfile="RS2Lite.jar">
-			<fileset dir="${bin}" />
+			<fileset dir="${bin}"/>
 			<manifest>
 				<attribute name="Main-Class" value="com.rs2lite.RS2Lite"/>
 			</manifest>
@@ -57,21 +57,18 @@
 	</target>
 	
 	<target name="run" depends="dist">
-        <java jar="RS2Lite.jar"/>
+        <java jar="RS2Lite.jar" fork="true"/>
     </target>
 	
 	<target name="app" depends="dist">
-		<copy todir="RS2Lite.app">
+		<copy todir="RS2Lite.app" overwrite="true">
 			<fileset dir="resources/app-template"/>
 		</copy>
-		<copy file="RS2Lite.jar" todir="RS2Lite.app/Contents/Resources/Java"/>
+		<copy file="RS2Lite.jar" todir="RS2Lite.app/Contents/Resources/Java" overwrite="true"/>
 		<chmod perm="+x" file="RS2Lite.app/Contents/MacOS/JavaApplicationStub"/> <!-- Unix systems doesn't preserve attributes -->
 	</target>
 	
 	<target name="run-app" depends="app">
-		<exec executable="open">
-			<arg value="-a"/>
-			<arg value="RS2Lite.app"/>
-		</exec>
+		<exec executable="RS2Lite.app/Contents/MacOS/JavaApplicationStub"/>
 	</target>
 </project>
