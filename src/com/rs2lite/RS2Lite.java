@@ -33,8 +33,11 @@ import com.rs2lite.loader.JavaAppletLoader;
 import com.rs2lite.loader.ParamaterParser;
 import com.rs2lite.utils.ScreenshotTool;
 import java.awt.*;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.*;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.sound.sampled.*;
 
 /**
@@ -175,7 +178,15 @@ public class RS2Lite {
 			//frame.setLayout(new BorderLayout());
 			frame.setIconImage(logo);
 			//frame.setResizable(true);
-			//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame.addWindowListener(new WindowAdapter()
+			{
+				@Override
+				public void windowClosing(WindowEvent we)
+				{
+					exit();
+				}
+			});
+						//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			/*appletPanel.setLayout(new BorderLayout());
 			appletPanel.add(loader.getApplet());
 			frame.getContentPane().add(appletPanel, BorderLayout.CENTER);*/
@@ -224,6 +235,18 @@ public class RS2Lite {
 			}
 		}
 	}
+	
+	public void exit()
+	{
+		/*PopupMenu exitMenu = new PopupMenu();
+		MenuItem exiting = new MenuItem("Exiting...");
+		exiting.setEnabled(false);
+		exitMenu.add(exiting);
+		icon.setPopupMenu(exitMenu);*/
+		
+		RS2Lite.getLoader().getApplet().destroy();
+		System.exit(0);
+	}
 
 	/**
 	 * Setup the menu for the tray icon
@@ -261,8 +284,7 @@ public class RS2Lite {
 		item.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				RS2Lite.getLoader().getApplet().destroy();
-				System.exit(0);
+				exit();
 			}
 		});
 		menu.add(item);
