@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="RS2Lite" default="run" basedir=".">
+<project name="RS2Lite" default="run" basedir=".">	
 	<property name="root" location="."/>
 	<property name="src" location="src"/>
 	<property name="bin" location="bin"/>
@@ -24,6 +24,8 @@
 	</target>
 
 	<target name="build" depends="init">
+		<property name="ant.build.javac.source" value="1.6"/>
+		<property name="ant.build.javac.target" value="1.6"/>
 		<javac srcdir="${src}" destdir="${bin}" includeantruntime="false"/>
 		<copy todir="${bin}/${resources}">
 			<fileset dir="${src}/${resources}"/>
