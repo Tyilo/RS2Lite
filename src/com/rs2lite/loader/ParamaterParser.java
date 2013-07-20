@@ -1,5 +1,6 @@
 package com.rs2lite.loader;
 
+import java.io.InputStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
@@ -8,6 +9,7 @@ import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.zip.GZIPInputStream;
 
 import com.rs2lite.Constants;
 import com.rs2lite.utils.Utils;
@@ -42,8 +44,11 @@ public class ParamaterParser {
 			connection.addRequestProperty("Keep-Alive", "300");
 			connection.addRequestProperty("User-Agent",
 					Utils.getHttpUserAgent());
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					connection.getInputStream()));
+			InputStream input = connection.getInputStream();
+			if ("gzip".equals(connection.getContentEncoding())) {
+    			input = new GZIPInputStream(input);
+			}
+			BufferedReader reader = new BufferedReader(new InputStreamReader(input));
 			String line;
 			StringBuilder contents = new StringBuilder();
 			while ((line = reader.readLine()) != null) {
