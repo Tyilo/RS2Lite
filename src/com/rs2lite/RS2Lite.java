@@ -36,8 +36,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.sound.sampled.*;
 
 /**
@@ -162,30 +160,55 @@ public class RS2Lite {
 						"An RS2Lite update is available! Current version: "
 								+ currver + " Download it from "
 								+ Constants.WEBSITE_URL, MessageType.INFO);
-				frameTitle = frameTitle + " (Update available)";
+				frameTitle += " (Update available)";
 			}
 			loader = new JavaAppletLoader(new URL(props.get("url")), "Rs2Applet", props);
 			Frame[] frames = Frame.getFrames(); //Retrieve RuneScape popup frame
-			for (Frame aFrame : frames)
+			Boolean frameFound = false;
+			for(Frame aFrame : frames)
 			{
 				if(aFrame.getTitle().equals("RuneScape"))
 				{
 					frame = aFrame;
+					frameFound = true;
+					break;
 				}
+			}
+			
+			printFrames();
+			
+			if(!frameFound)
+			{
+				frame = new Frame();
+				frame.setLayout(new BorderLayout());
+				frame.setResizable(true);
+				appletPanel.setLayout(new BorderLayout());
+				appletPanel.add(loader.getApplet());
+				appletPanel.setPreferredSize(new Dimension(765, 503));
+				frame.add(appletPanel, BorderLayout.CENTER);
 			}
 			//frame = new JFrame(frameTitle);
 			frame.setTitle(frameTitle);
 			//frame.setLayout(new BorderLayout());
 			frame.setIconImage(logo);
 			//frame.setResizable(true);
-			frame.addWindowListener(new WindowAdapter()
+			frame.addWindowListener(
+				new WindowAdapter() {
+				@Override
+					public void windowClosed(WindowEvent e) {
+						exit();
+					}
+				}
+			);
+
+			/*frame.addWindowListener(new WindowAdapter()
 			{
 				@Override
 				public void windowClosing(WindowEvent we)
 				{
 					exit();
 				}
-			});
+			});*/
 						//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			/*appletPanel.setLayout(new BorderLayout());
 			appletPanel.add(loader.getApplet());
@@ -195,10 +218,15 @@ public class RS2Lite {
 			//frame.setBounds(50, 50, 900, 200);
 			//frame.resize(screenSize);
 			//frame.pack();
-			//frame.setVisible(true);
+			frame.setVisible(true);
 			//window = new Window(frame);
 			//window.setBounds(300, 300, screenSize.width, screenSize.height);
 			//window.setFocusable(true);
+			
+			Component[] components = frame.getComponents();
+			System.out.println(components[0]);
+			components[0].setLocation(0, -100);
+			
 			KeyboardFocusManager.getCurrentKeyboardFocusManager()
 					.addKeyEventDispatcher(new KeyListener());
 
@@ -215,10 +243,80 @@ public class RS2Lite {
 		hide.setLabel(frame.isVisible() ? "Hide" : "Show");
 	}
 	
+	private String multiplyString(String str, int count) {
+		StringBuilder sb = new StringBuilder();
+		for(int i = 0; i < count; ++i) {
+			sb.append(str);
+		}
+		return sb.toString();
+	}
+	
+	public void printFramesRecursively(Component component, int depth) {
+		System.out.printf("%sComponent: %s %s %s\n", multiplyString("  ", depth), component.getClass(), component.getSize(), component.getLocation());
+		if(component instanceof Container) {
+			for(Component subComponent : ((Container)component).getComponents()) {
+				printFramesRecursively(subComponent, depth + 1);
+			}
+		}
+	}
+	
+	public void printFrames() {
+		System.out.println("======");
+		Frame[] frames = Frame.getFrames();
+		for (Frame aFrame : frames)
+		{
+			System.out.print("Frame: ");
+			System.out.print(aFrame.getClass() + " ");
+			System.out.println(aFrame.getSize().toString());
+			printFramesRecursively(aFrame, 1);
+		}
+	}
+	
 	/**
 	 * Mute/unmute RuneScape
 	 */
 	public void mute() {
+		final Component[] components = frame.getComponents();
+		final Rectangle bounds = frame.getBounds();
+		
+		for(ComponentListener listener : components[0].getComponentListeners()) {
+			components[0].removeComponentListener(listener);
+		}
+		
+		components[0].addComponentListener(new ComponentListener(){
+			//@Override
+			public void componentResized(ComponentEvent ce) {
+				if(!components[0].getSize().equals(new Dimension(bounds.width, bounds.height + 45))) {
+					components[0].setSize(bounds.width, bounds.height + 45);
+					System.out.println("Didn't match, resizing");
+				} else {
+					System.out.println("Already correct size");
+				}
+			}
+
+			public void componentMoved(ComponentEvent ce) {
+				//
+			}
+
+			public void componentShown(ComponentEvent ce) {
+				//
+			}
+
+			public void componentHidden(ComponentEvent ce) {
+				//
+			}
+		});
+		
+		components[0].setSize(bounds.width, bounds.height + 45);
+		
+		Container offsetContainer = new Container();
+		offsetContainer.add(components[0]);
+		
+		frame.add(offsetContainer);
+		
+		offsetContainer.setBounds(0, -45, bounds.width, bounds.height + 45);
+		
+		printFrames();
 		Mixer.Info[] infos = AudioSystem.getMixerInfo();
 		for (Mixer.Info info: infos) {
 			Mixer mixer = AudioSystem.getMixer(info);
@@ -387,7 +485,7 @@ public class RS2Lite {
 	 * Toggle fullscreen mode
 	 */
 	public static void toggleFullscreen() {
-		if (!isFullScreen) {
+		/*if (!isFullScreen) {
 			frame.remove(appletPanel);
 			window.add(appletPanel);
 			window.setVisible(true);
@@ -400,7 +498,7 @@ public class RS2Lite {
 			frame.pack();
 			frame.setTitle(frameTitle);
 			isFullScreen = false;
-		}
+		}*/
 	}
 
 	/**
@@ -409,14 +507,15 @@ public class RS2Lite {
 	 * @return The current RS2Lite version
 	 */
 	public double getCurrentVersion() {
-		try {
+		return 0;
+		/*try {
 			BufferedReader r = new BufferedReader(new InputStreamReader(
 					new URL("http://rs2lite.tk/ver.txt").openStream()));
 			return Double.parseDouble(r.readLine());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return Constants.VERSION;
+		return Constants.VERSION;*/
 	}
 
 	/**
