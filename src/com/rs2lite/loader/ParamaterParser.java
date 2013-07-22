@@ -64,7 +64,7 @@ public class ParamaterParser {
 	public HashMap<String, String> parseParamaters() throws MalformedURLException {
 		HashMap<String, String> params = new HashMap<String, String>();
 		String contents = readPage(new URL(Constants.GAME_URL));
-		Pattern pattern = Pattern.compile("src\\=\"(.*?)\"");
+		Pattern pattern = Pattern.compile("<iframe [ a-zA-Z\"=]*src\\=\"(.*?)\"");
 		Matcher serverMatcher = pattern.matcher(contents);
 		if(!serverMatcher.find()) {
 			throw new RuntimeException("Could not find the runescape server url!");

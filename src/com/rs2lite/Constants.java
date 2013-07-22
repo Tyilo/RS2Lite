@@ -10,7 +10,7 @@ package com.rs2lite;
 public class Constants {
 	public static final double VERSION = 1.10;
 
-	public static final String GAME_URL = "http://www.runescape.com/game.ws?j=0";
+	public static final String GAME_URL = "http://www.runescape.com/game";
 
 	public static final String WEBSITE_URL = "http://rs2lite.tk";
 }
