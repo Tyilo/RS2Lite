@@ -38,6 +38,8 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.sound.sampled.*;
 
+import com.tyilo.GitHubLatestRelease.GitHubLatestRelease;
+
 /**
  * Class RSLite, the client's main class.
  * 
@@ -512,15 +514,16 @@ public class RSLite {
 	 * @return The current RSLite version
 	 */
 	public double getCurrentVersion() {
-		return 0;
-		/*try {
-			BufferedReader r = new BufferedReader(new InputStreamReader(
-					new URL("http://rslite.tk/ver.txt").openStream()));
-			return Double.parseDouble(r.readLine());
+		try {
+			String latest = GitHubLatestRelease.getLatest(Constants.WEBSITE_URL);
+			if(latest != null && latest.length() > 1) {
+				return Double.parseDouble(latest.substring(1));
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return Constants.VERSION;*/
+		
+		return 0;
 	}
 
 	/**
