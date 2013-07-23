@@ -3,7 +3,6 @@
 	<property name="root" location="."/>
 	<property name="src" location="src"/>
 	<property name="bin" location="bin"/>
-	<property name="doc" location="doc"/>
 	<property name="resources" value="com/rslite/resources"/>
 	<property name="launch4j.dir" location="launch4j-crossplatform" />
 	
@@ -21,7 +20,6 @@
 
 	<target name="init">
 		<mkdir dir="${bin}"/>
-		<mkdir dir="${doc}"/>
 	</target>
 
 	<target name="build" depends="init">
@@ -36,20 +34,11 @@
 
 	<target name="clean">
 		<delete dir="${bin}"/>
-		<delete dir="${doc}"/>
 		<delete file="RSLite.jar"/>
 		<delete dir="RSLite.app"/>
 	</target>
 
 	<target name="rebuild" depends="clean, build"/>
-
-	<target name="doc" depends="build">
-		<javadoc sourcepath="${src}" classpathref="libraries" access="private" destdir="${doc}" windowtitle="JScreenSnapper">
-			<doctitle>
-				<![CDATA[<h1>RSLite</h1>]]>
-			</doctitle>
-		</javadoc>
-	</target>
 
 	<target name="dist" depends="build" description="generate the distribution">		
 		<!-- Put everything in ${bin} into the RSLite.jar file -->
