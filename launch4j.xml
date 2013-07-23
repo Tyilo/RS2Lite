@@ -1,8 +1,8 @@
 <launch4jConfig>
   <dontWrapJar>false</dontWrapJar>
   <headerType>gui</headerType>
-  <jar>RSLite.jar</jar>
-  <outfile>RSLite.exe</outfile>
+  <jar>release/RSLite.jar</jar>
+  <outfile>release/RSLite.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir></chdir>

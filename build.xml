@@ -3,8 +3,9 @@
 	<property name="root" location="."/>
 	<property name="src" location="src"/>
 	<property name="bin" location="bin"/>
+	<property name="release" location="release"/>
 	<property name="resources" value="com/rslite/resources"/>
-	<property name="launch4j.dir" location="launch4j-crossplatform" />
+	<property name="launch4j.dir" location="launch4j-crossplatform"/>
 	
 	<path id="binaries">
 		<pathelement path="${bin}"/>
@@ -20,6 +21,7 @@
 
 	<target name="init">
 		<mkdir dir="${bin}"/>
+		<mkdir dir="${release}"/>
 	</target>
 
 	<target name="build" depends="init">
@@ -34,15 +36,14 @@
 
 	<target name="clean">
 		<delete dir="${bin}"/>
-		<delete file="RSLite.jar"/>
-		<delete dir="RSLite.app"/>
+		<delete dir="${release}"/>
 	</target>
 
 	<target name="rebuild" depends="clean, build"/>
 
 	<target name="dist" depends="build" description="generate the distribution">		
 		<!-- Put everything in ${bin} into the RSLite.jar file -->
-		<jar jarfile="RSLite.jar">
+		<jar jarfile="${release}/RSLite.jar">
 			<fileset dir="${bin}"/>
 			<manifest>
 				<attribute name="Main-Class" value="com.rslite.RSLite"/>
@@ -51,27 +52,27 @@
 	</target>
 	
 	<target name="run" depends="dist">
-        <java jar="RSLite.jar" fork="true"/>
+        <java jar="${release}/RSLite.jar" fork="true"/>
     </target>
 	
 	<target name="app" depends="dist">
-		<copy todir="RSLite.app" overwrite="true">
+		<copy todir="${release}/RSLite.app" overwrite="true">
 			<fileset dir="resources/app"/>
 		</copy>
-		<copy file="RSLite.jar" todir="RSLite.app/Contents/Resources/Java" overwrite="true"/>
-		<chmod perm="+x" file="RSLite.app/Contents/MacOS/JavaApplicationStub"/> <!-- Unix systems doesn't preserve attributes -->
+		<copy file="${release}/RSLite.jar" todir="${release}/RSLite.app/Contents/Resources/Java" overwrite="true"/>
+		<chmod perm="+x" file="${release}/RSLite.app/Contents/MacOS/JavaApplicationStub"/> <!-- Unix systems doesn't preserve attributes -->
 	</target>
 	
 	<target name="run-app" depends="app">
 		<exec executable="open">
 			<arg value="-W"/>
-			<arg value="RSLite.app"/>
+			<arg value="${release}/RSLite.app"/>
 		</exec>
 	</target>
 	
 	<target name="exe" depends="dist">
 		<condition property="exe" value=".exe">
-			<os family="windows" />
+			<os family="windows"/>
 		</condition>
 
 		<property name="exe" value=""/>
@@ -82,6 +83,6 @@
 	</target>
 
 	<target name="run-exe" depends="exe">
-		<exec executable="RSLite.exe"/>
+		<exec executable="${release}/RSLite.exe"/>
 	</target>
 </project>

@@ -1,6 +1,3 @@
 .DS_Store
-*.class
-*.jar
-*.app
-*.exe
 bin/
+release/
