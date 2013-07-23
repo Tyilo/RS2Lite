@@ -103,6 +103,11 @@ public class RSLite {
 	 * RS Applet loader
 	 */
 	private static JavaAppletLoader loader;
+	
+	/**
+	 * Resize listener for Jagex frame
+	 */
+	private static ComponentListener resizeListener;
 
 	/**
 	 * Main entry point
@@ -147,7 +152,7 @@ public class RSLite {
 	 * Initiates the Applet
 	 */
 	private void init() {
-		try {
+		try {			
 			logo = Toolkit.getDefaultToolkit().getImage(getClass().getResource("resources/icon.png"));
 			icon = new TrayIcon(logo);
 			icon.setImageAutoSize(true);
@@ -187,6 +192,32 @@ public class RSLite {
 				appletPanel.setPreferredSize(new Dimension(765, 503));
 				frame.add(appletPanel, BorderLayout.CENTER);
 			}
+			else
+			{
+				// The frame provided by jagex automatically resizes.
+				// This waits for the resize and maximizes the window.
+				
+				resizeListener = new ComponentListener() {
+					public void componentResized(ComponentEvent e) {
+						if(frame.getSize().equals(new Dimension(128, 37))) {
+							frame.setExtendedState(frame.getExtendedState() | Frame.MAXIMIZED_BOTH);
+							frame.removeComponentListener(resizeListener);
+						}
+					}
+					
+					// Apparently these lines are required...
+					public void componentHidden(ComponentEvent e) {
+					}
+					public void componentMoved(ComponentEvent e) {
+					}
+					public void componentShown(ComponentEvent e) {
+					}
+				};
+				frame.addComponentListener(resizeListener);
+			}
+			
+			frame.setExtendedState(frame.getExtendedState() | Frame.MAXIMIZED_BOTH);
+			
 			frame.setTitle(frameTitle);
 			frame.setIconImage(logo);
 			frame.addWindowListener(
@@ -198,13 +229,8 @@ public class RSLite {
 				}
 			);
 			
-			frame.setExtendedState(frame.getExtendedState() | Frame.MAXIMIZED_BOTH);
 			frame.pack();
 			frame.setVisible(true);
-			
-			Component[] components = frame.getComponents();
-			System.out.println(components[0]);
-			components[0].setLocation(0, -100);
 			
 			KeyboardFocusManager.getCurrentKeyboardFocusManager()
 					.addKeyEventDispatcher(new KeyListener());
