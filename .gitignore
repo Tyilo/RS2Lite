@@ -2,4 +2,5 @@
 *.class
 *.jar
 *.app
+*.exe
 bin/

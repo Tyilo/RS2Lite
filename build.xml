@@ -5,7 +5,8 @@
 	<property name="bin" location="bin"/>
 	<property name="doc" location="doc"/>
 	<property name="resources" value="com/rslite/resources"/>
-
+	<property name="launch4j.dir" location="launch4j-crossplatform" />
+	
 	<path id="binaries">
 		<pathelement path="${bin}"/>
 	</path>
@@ -77,5 +78,21 @@
 			<arg value="-W"/>
 			<arg value="RSLite.app"/>
 		</exec>
+	</target>
+	
+	<target name="exe" depends="dist">
+		<condition property="exe" value=".exe">
+			<os family="windows" />
+		</condition>
+
+		<property name="exe" value=""/>
+
+		<exec executable="${launch4j.dir}/launch4j${exe}">
+			<arg value="${user.dir}/launch4j.xml"/>
+		</exec>
+	</target>
+
+	<target name="run-exe" depends="exe">
+		<exec executable="RSLite.exe"/>
 	</target>
 </project>
