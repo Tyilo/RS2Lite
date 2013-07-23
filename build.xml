@@ -85,4 +85,8 @@
 	<target name="run-exe" depends="exe">
 		<exec executable="${release}/RSLite.exe"/>
 	</target>
+	
+	<target name="release" depends="app,exe">
+		<zip destfile="${release}/RSLite.app.zip" basedir="${release}" includes="RSLite.app/**"/>
+	</target>
 </project>
