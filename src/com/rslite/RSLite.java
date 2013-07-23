@@ -187,11 +187,8 @@ public class RSLite {
 				appletPanel.setPreferredSize(new Dimension(765, 503));
 				frame.add(appletPanel, BorderLayout.CENTER);
 			}
-			//frame = new JFrame(frameTitle);
 			frame.setTitle(frameTitle);
-			//frame.setLayout(new BorderLayout());
 			frame.setIconImage(logo);
-			//frame.setResizable(true);
 			frame.addWindowListener(
 				new WindowAdapter() {
 				@Override
@@ -200,28 +197,10 @@ public class RSLite {
 					}
 				}
 			);
-
-			/*frame.addWindowListener(new WindowAdapter()
-			{
-				@Override
-				public void windowClosing(WindowEvent we)
-				{
-					exit();
-				}
-			});*/
-						//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			/*appletPanel.setLayout(new BorderLayout());
-			appletPanel.add(loader.getApplet());
-			frame.getContentPane().add(appletPanel, BorderLayout.CENTER);*/
-			frame.setPreferredSize(screenSize);
+			
+			frame.setExtendedState(frame.getExtendedState() | Frame.MAXIMIZED_BOTH);
 			frame.pack();
-			//frame.setBounds(50, 50, 900, 200);
-			//frame.resize(screenSize);
-			//frame.pack();
 			frame.setVisible(true);
-			//window = new Window(frame);
-			//window.setBounds(300, 300, screenSize.width, screenSize.height);
-			//window.setFocusable(true);
 			
 			Component[] components = frame.getComponents();
 			System.out.println(components[0]);
