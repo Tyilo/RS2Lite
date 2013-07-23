@@ -1,4 +1,4 @@
-package com.rs2lite;
+package com.rslite;
 
 /**
  * Class Constants, the client's data storing class.
@@ -12,5 +12,5 @@ public class Constants {
 
 	public static final String GAME_URL = "http://www.runescape.com/game";
 
-	public static final String WEBSITE_URL = "https://github.com/Tyilo/RS2Lite/releases";
+	public static final String WEBSITE_URL = "https://github.com/Tyilo/RSLite";
 }

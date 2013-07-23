@@ -1,4 +1,4 @@
-package com.rs2lite.loader;
+package com.rslite.loader;
 
 import java.io.InputStream;
 import java.io.BufferedReader;
@@ -11,8 +11,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
 
-import com.rs2lite.Constants;
-import com.rs2lite.utils.Utils;
+import com.rslite.Constants;
+import com.rslite.utils.Utils;
 
 /**
  * Class ParamaterParser, opens Jagex's non-javascript page and grabs

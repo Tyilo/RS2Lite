@@ -1,4 +1,4 @@
-package com.rs2lite;
+package com.rslite;
 
 import java.awt.Frame;
 import java.awt.BorderLayout;
@@ -28,10 +28,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
-import com.rs2lite.Settings.Setting;
-import com.rs2lite.loader.JavaAppletLoader;
-import com.rs2lite.loader.ParamaterParser;
-import com.rs2lite.utils.ScreenshotTool;
+import com.rslite.Settings.Setting;
+import com.rslite.loader.JavaAppletLoader;
+import com.rslite.loader.ParamaterParser;
+import com.rslite.utils.ScreenshotTool;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.HashSet;
@@ -39,13 +39,13 @@ import java.util.Set;
 import javax.sound.sampled.*;
 
 /**
- * Class RS2Lite, the client's main class.
+ * Class RSLite, the client's main class.
  * 
  * @author Nicole <nicole@rune-server.org> This file is protected by The BSD
  *         License, You should have recieved a copy named "BSD License.txt"
  */
 
-public class RS2Lite {
+public class RSLite {
 
 	private static ExecutorService worker = Executors.newSingleThreadExecutor();
 
@@ -73,7 +73,7 @@ public class RS2Lite {
 	/**
 	 * Simple, the frame title.
 	 */
-	private static String frameTitle = "RS2 Lite - v" + Constants.VERSION;
+	private static String frameTitle = "RS Lite";
 
 	/**
 	 * The main content frame, for holding the applet itself non fullscreen
@@ -111,13 +111,13 @@ public class RS2Lite {
 	 *            The commandline arguments
 	 */
 	public static void main(String args[]) {
-		new RS2Lite();
+		new RSLite();
 	}
 
 	/**
 	 * The constructor..
 	 */
-	private RS2Lite() {
+	private RSLite() {
 		/**
 		 * Set it to use the system look and feel, instead of java's default,
 		 * All dialogues etc will use this
@@ -152,12 +152,12 @@ public class RS2Lite {
 			icon = new TrayIcon(logo);
 			icon.setImageAutoSize(true);
 			icon.setPopupMenu(createMenu());
-			icon.setToolTip("RS2Lite Runescape loader");
+			icon.setToolTip("RSLite Runescape loader");
 			SystemTray.getSystemTray().add(icon);
 			double currver = this.getCurrentVersion();
 			if (currver > Constants.VERSION) {
 				icon.displayMessage("Update available",
-						"An RS2Lite update is available! Current version: "
+						"An RSLite update is available! Current version: "
 								+ currver + " Download it from "
 								+ Constants.WEBSITE_URL, MessageType.INFO);
 				frameTitle += " (Update available)";
@@ -342,7 +342,7 @@ public class RS2Lite {
 		exitMenu.add(exiting);
 		icon.setPopupMenu(exitMenu);*/
 		
-		RS2Lite.getLoader().getApplet().destroy();
+		RSLite.getLoader().getApplet().destroy();
 		System.exit(0);
 	}
 
@@ -457,7 +457,7 @@ public class RS2Lite {
 	}
 
 	/**
-	 * @return True, if rs2lite is running in fullscreen
+	 * @return True, if rslite is running in fullscreen
 	 */
 	public static boolean isFullscreen() {
 		return isFullScreen;
@@ -489,7 +489,7 @@ public class RS2Lite {
 			frame.remove(appletPanel);
 			window.add(appletPanel);
 			window.setVisible(true);
-			frame.setTitle("RS2 Lite - Fullscreen");
+			frame.setTitle("RS Lite - Fullscreen");
 			isFullScreen = true;
 		} else {
 			window.remove(appletPanel);
@@ -504,13 +504,13 @@ public class RS2Lite {
 	/**
 	 * Read the current version from the website
 	 * 
-	 * @return The current RS2Lite version
+	 * @return The current RSLite version
 	 */
 	public double getCurrentVersion() {
 		return 0;
 		/*try {
 			BufferedReader r = new BufferedReader(new InputStreamReader(
-					new URL("http://rs2lite.tk/ver.txt").openStream()));
+					new URL("http://rslite.tk/ver.txt").openStream()));
 			return Double.parseDouble(r.readLine());
 		} catch (Exception e) {
 			e.printStackTrace();

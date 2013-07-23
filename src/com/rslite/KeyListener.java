@@ -1,4 +1,4 @@
-package com.rs2lite;
+package com.rslite;
 
 import java.awt.KeyEventDispatcher;
 import java.awt.event.KeyEvent;
@@ -22,7 +22,7 @@ public class KeyListener implements KeyEventDispatcher {
 				Object[] options = { "File", "Imgur" };
 				int n = JOptionPane
 						.showOptionDialog(
-								RS2Lite.frame,
+								RSLite.frame,
 								"Which screenshot method would you like?\nPlease note, Imgur requires an api key to function",
 								"Upload method", JOptionPane.YES_NO_OPTION,
 								JOptionPane.QUESTION_MESSAGE, null, // do not
@@ -35,13 +35,13 @@ public class KeyListener implements KeyEventDispatcher {
 				Settings.writeSettings(false);
 				break;
 			case KeyEvent.VK_F10:
-				RS2Lite.toggleFullscreen();
+				RSLite.toggleFullscreen();
 				break;
 			case KeyEvent.VK_F11:
-				RS2Lite.changeUploadSettings();
+				RSLite.changeUploadSettings();
 				break;
 			case KeyEvent.VK_F12:
-				RS2Lite.screenshot();
+				RSLite.screenshot();
 				break;
 			}
 		}

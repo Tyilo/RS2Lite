@@ -1,4 +1,4 @@
-package com.rs2lite;
+package com.rslite;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -7,7 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.HashMap;
 
-import com.rs2lite.utils.Utils;
+import com.rslite.utils.Utils;
 
 /**
  * Class Settings, the loader's setting class
@@ -22,7 +22,7 @@ public class Settings {
 
 	public static class Setting {
 
-		public static final String RS2Lite_KEY = "rs2lite_api";
+		public static final String RSLite_KEY = "rslite_api";
 		public static final String IMGUR_KEY = "imgur_api";
 		public static final String FILE_LOCATION = "screenshot_loc";
 
@@ -111,8 +111,8 @@ public class Settings {
 		return settings.containsKey(string);
 	}
 
-	public static String getRS2LiteKey() {
-		return settings.get(Setting.RS2Lite_KEY);
+	public static String getRSLiteKey() {
+		return settings.get(Setting.RSLite_KEY);
 	}
 
 	public static String getImgurKey() {

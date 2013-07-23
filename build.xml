@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
-<project name="RS2Lite" default="run" basedir=".">	
+<project name="RSLite" default="run" basedir=".">	
 	<property name="root" location="."/>
 	<property name="src" location="src"/>
 	<property name="bin" location="bin"/>
 	<property name="doc" location="doc"/>
-	<property name="resources" value="com/rs2lite/resources"/>
+	<property name="resources" value="com/rslite/resources"/>
 
 	<path id="binaries">
 		<pathelement path="${bin}"/>
@@ -36,8 +36,8 @@
 	<target name="clean">
 		<delete dir="${bin}"/>
 		<delete dir="${doc}"/>
-		<delete file="RS2Lite.jar"/>
-		<delete dir="RS2Lite.app"/>
+		<delete file="RSLite.jar"/>
+		<delete dir="RSLite.app"/>
 	</target>
 
 	<target name="rebuild" depends="clean, build"/>
@@ -45,37 +45,37 @@
 	<target name="doc" depends="build">
 		<javadoc sourcepath="${src}" classpathref="libraries" access="private" destdir="${doc}" windowtitle="JScreenSnapper">
 			<doctitle>
-				<![CDATA[<h1>RS2Lite</h1>]]>
+				<![CDATA[<h1>RSLite</h1>]]>
 			</doctitle>
 		</javadoc>
 	</target>
 
 	<target name="dist" depends="build" description="generate the distribution">		
-		<!-- Put everything in ${bin} into the RS2Lite.jar file -->
-		<jar jarfile="RS2Lite.jar">
+		<!-- Put everything in ${bin} into the RSLite.jar file -->
+		<jar jarfile="RSLite.jar">
 			<fileset dir="${bin}"/>
 			<manifest>
-				<attribute name="Main-Class" value="com.rs2lite.RS2Lite"/>
+				<attribute name="Main-Class" value="com.rslite.RSLite"/>
 			</manifest>
 		</jar>
 	</target>
 	
 	<target name="run" depends="dist">
-        <java jar="RS2Lite.jar" fork="true"/>
+        <java jar="RSLite.jar" fork="true"/>
     </target>
 	
 	<target name="app" depends="dist">
-		<copy todir="RS2Lite.app" overwrite="true">
+		<copy todir="RSLite.app" overwrite="true">
 			<fileset dir="resources/app"/>
 		</copy>
-		<copy file="RS2Lite.jar" todir="RS2Lite.app/Contents/Resources/Java" overwrite="true"/>
-		<chmod perm="+x" file="RS2Lite.app/Contents/MacOS/JavaApplicationStub"/> <!-- Unix systems doesn't preserve attributes -->
+		<copy file="RSLite.jar" todir="RSLite.app/Contents/Resources/Java" overwrite="true"/>
+		<chmod perm="+x" file="RSLite.app/Contents/MacOS/JavaApplicationStub"/> <!-- Unix systems doesn't preserve attributes -->
 	</target>
 	
 	<target name="run-app" depends="app">
 		<exec executable="open">
 			<arg value="-W"/>
-			<arg value="RS2Lite.app"/>
+			<arg value="RSLite.app"/>
 		</exec>
 	</target>
 </project>

@@ -1,4 +1,4 @@
-package com.rs2lite.utils;
+package com.rslite.utils;
 
 import java.awt.Rectangle;
 import java.awt.Robot;
@@ -23,10 +23,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.rs2lite.RS2Lite;
-import com.rs2lite.RS2Lite.UploadMethod;
-import com.rs2lite.Settings;
-import com.rs2lite.Settings.Setting;
+import com.rslite.RSLite;
+import com.rslite.RSLite.UploadMethod;
+import com.rslite.Settings;
+import com.rslite.Settings.Setting;
 
 public class ScreenshotTool {
 
@@ -59,7 +59,7 @@ public class ScreenshotTool {
 				f = new File(Settings.getSetting(Setting.FILE_LOCATION)
 						+ filename);
 				ImageIO.write(image, "PNG", f);
-				RS2Lite.getIcon().displayMessage(
+				RSLite.getIcon().displayMessage(
 						"Screenshot saved successfully!",
 						"Screenshot saved to " + f.getPath(), MessageType.INFO);
 				break;
@@ -109,7 +109,7 @@ public class ScreenshotTool {
 				 * Set the system clipboard to the url, and display a message.
 				 */
 				Utils.setClipboard(n.getNodeValue());
-				RS2Lite.getIcon().displayMessage("Uploaded successfully!",
+				RSLite.getIcon().displayMessage("Uploaded successfully!",
 						"Image uploaded to " + n.getNodeValue(),
 						MessageType.INFO);
 				break;
@@ -117,7 +117,7 @@ public class ScreenshotTool {
 		} catch (Exception e) {
 			JOptionPane
 					.showMessageDialog(
-							RS2Lite.frame,
+							RSLite.frame,
 							"Error uploading/saving your image, please check your settings",
 							"Error!", JOptionPane.ERROR_MESSAGE);
 		}

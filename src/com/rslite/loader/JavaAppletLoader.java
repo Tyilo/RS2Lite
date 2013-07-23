@@ -1,4 +1,4 @@
-package com.rs2lite.loader;
+package com.rslite.loader;
 
 import java.applet.Applet;
 import java.applet.AppletContext;

@@ -1,4 +1,4 @@
-package com.rs2lite.utils;
+package com.rslite.utils;
 
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -8,7 +8,7 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.io.File;
 
-import com.rs2lite.RS2Lite;
+import com.rslite.RSLite;
 
 /**
  * Class Utils, the client's util class.
@@ -70,15 +70,15 @@ public class Utils {
 	 * 		The applet location, or frame if the applet is null
 	 */
 	public static Rectangle getSize() {
-		Rectangle size = RS2Lite.frame.getBounds();
-		if (RS2Lite.getLoader() != null) {
-			Point p = RS2Lite.getLoader().getApplet().getLocationOnScreen();
-			Rectangle panelsize = RS2Lite.getLoader().getApplet().getBounds();
+		Rectangle size = RSLite.frame.getBounds();
+		if (RSLite.getLoader() != null) {
+			Point p = RSLite.getLoader().getApplet().getLocationOnScreen();
+			Rectangle panelsize = RSLite.getLoader().getApplet().getBounds();
 			size = new Rectangle((int) p.getX(), (int) p.getY(),
 					(int) panelsize.getWidth(), (int) panelsize.getHeight());
 		}
-		if (RS2Lite.isFullscreen()) {
-			size = RS2Lite.window.getBounds();
+		if (RSLite.isFullscreen()) {
+			size = RSLite.window.getBounds();
 		}
 		return size;
 	}
@@ -90,7 +90,7 @@ public class Utils {
 	 */
 	public static File getWorkingDirectory() {
 		if (workDir == null)
-			workDir = getWorkingDirectory("rs2lite");
+			workDir = getWorkingDirectory("rslite");
 		return workDir;
 	}
 
